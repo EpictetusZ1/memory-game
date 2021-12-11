@@ -1,0 +1,32 @@
+@import "reset.css";
+@import "colors.css";
+
+/* TODO: Add root color var file when you get palette */
+
+.app {
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--dark-olive-green);
+    display: flex;
+    justify-content: center;
+}
+
+.gameHeader {
+    width: 100%;
+    height: 7%;
+    font-family: Baskerville, sans-serif;
+    font-size: 2.7em;
+    color: var(--cornsilk);
+    padding: 20px 0 10px 0;
+    text-align: center;
+}
+
+.cardContainer {
+    display: grid;
+    width: 80%;
+    height: 80%;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 30px;
+    grid-row-gap: 25px;
+}
