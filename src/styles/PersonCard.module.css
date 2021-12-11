@@ -1,11 +1,25 @@
 .card {
     width: 320px;
-    height: 350px;
+    height: 340px;
     background-color: var(--fawn);
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 15px;
+    transition: all 0.2s ease-in-out;
+}
+
+@media (max-width: 1000px) {
+    .card {
+        width: 120px;
+        height: 125px;
+        margin: auto;
+    }
+}
+
+.card:hover {
+    cursor: pointer;
+    box-shadow: rgb(13, 19, 26) 0 20px 30px -10px;
 }
 
 .imageContainer {
@@ -18,3 +32,4 @@
     width: 100%;
     height: auto;
 }
+
