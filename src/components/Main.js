@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
+import DisplayCards from "./DisplayCards";
 import styles from "../styles/StyleMain.module.css"
-import PersonCard from "./PersonCard";
 import {
     jkr,
     mg,
@@ -14,19 +14,38 @@ import {
 
 function Main() {
 
+    const makeAuthor = (name, source, funFact = "nothing") => {
+        return {
+            name: name,
+            source: source,
+            funFact: funFact,
+            clicked: false
+        }
+    }
+
     const [game, setGame] = useState({
-        people: [],
+        people: [
+            makeAuthor("J.K. Rowling", jkr),
+            makeAuthor("Malcom Gladwell", mg),
+            makeAuthor("Mary Shelly", ms),
+            makeAuthor("Robert Greene", rg),
+            makeAuthor("Ryan Holiday", rh),
+            makeAuthor("Ralph Waldo Emerson", rwe),
+            makeAuthor("Theodor Seuss Geisel", tsg),
+            makeAuthor("Virginnia Wolfe", vw)
+        ],
         currScore: 0,
         highScore: 0,
-        clicked: false
+        gameOver: false
     })
 
-    const cardArr = [jkr, mg, ms, rg, rh, rwe, tsg, vw]
-
-
-    const handleClick = () => {
-        // shuffle cards
-        // Handle score
+    const handleClick = (e) => {
+        const status = e.target.closest("img").getAttribute("clickedstatus")
+        if (status === "true") {
+            setGame({...game, gameOver: true})
+        } else {
+            e.target.setAttribute("clickedstatus", "true")
+        }
     }
 
     return (
@@ -39,13 +58,12 @@ function Main() {
                     &nbsp; &nbsp; &nbsp;
                     High Score: {game.highScore}
                 </div>
+            </div>
+            <DisplayCards cardArr={game.people}
+                          clickHandler={handleClick}
+            />
 
-            </div>
-            <div className={styles.cardContainer}>
-                {cardArr.map( (card) => (
-                    <PersonCard path={card} />
-                ))}
-            </div>
+
         </div>
     )
 }
