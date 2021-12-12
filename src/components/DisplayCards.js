@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from "../styles/StyleMain.module.css"
 import PersonCard from "./PersonCard";
 
-function DisplayCards( {cardArr, clickHandler} ) {
+function DisplayCards( {initCardArray, clickHandler} ) {
 
     const shuffleCards = (cardArr) => {
         for (let i = cardArr.length - 1; i > 0; i--) {
@@ -12,12 +12,9 @@ function DisplayCards( {cardArr, clickHandler} ) {
         return cardArr
     }
 
-    // useEffect(() => {
-    // },[])
-
     return (
         <div className={styles.cardContainer}>
-            {cardArr.map( (card) => (
+            {shuffleCards(initCardArray).map( (card) => (
                 <PersonCard key={card.name}
                             info={card}
                             clickHandler={clickHandler}

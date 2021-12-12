@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import DisplayCards from "./DisplayCards";
 import styles from "../styles/StyleMain.module.css"
 import {
@@ -22,9 +22,8 @@ function Main() {
             clicked: false
         }
     }
-
-    const [game, setGame] = useState({
-        people: [
+    const setPeople = () => {
+        return [
             makeAuthor("J.K. Rowling", jkr),
             makeAuthor("Malcom Gladwell", mg),
             makeAuthor("Mary Shelly", ms),
@@ -33,18 +32,44 @@ function Main() {
             makeAuthor("Ralph Waldo Emerson", rwe),
             makeAuthor("Theodor Seuss Geisel", tsg),
             makeAuthor("Virginnia Wolfe", vw)
-        ],
+        ]
+    }
+
+    const [game, setGame] = useState({
+        people: setPeople(),
         currScore: 0,
         highScore: 0,
         gameOver: false
     })
 
+    const checkScore = () => {
+        const curr = game.currScore
+        const high = game.highScore
+        if (curr > high) {
+            setGame({...game, highScore: curr})
+        }
+    }
+
+    const resetGame = () => {
+        if (game.gameOver) {
+            setGame({...game, currScore: 0})
+            setGame({...game, people: setPeople()})
+        }
+    }
+
     const handleClick = (e) => {
-        const status = e.target.closest("img").getAttribute("clickedstatus")
+        const target = e.currentTarget
+        const status = target.getAttribute("clickedstatus")
         if (status === "true") {
             setGame({...game, gameOver: true})
-        } else {
-            e.target.setAttribute("clickedstatus", "true")
+            resetGame()
+            console.log("GAME OVER")
+            console.log("-----------------------------------")
+
+        } else if (status === "false") {
+            target.setAttribute("clickedstatus", "true")
+            setGame({...game, currScore: game.currScore + 1})
+            checkScore()
         }
     }
 
@@ -59,8 +84,9 @@ function Main() {
                     High Score: {game.highScore}
                 </div>
             </div>
-            <DisplayCards cardArr={game.people}
+            <DisplayCards initCardArray={game.people}
                           clickHandler={handleClick}
+                          handle
             />
 
 

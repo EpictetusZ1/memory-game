@@ -1,17 +1,17 @@
 import React from 'react';
 import styles from "../styles/PersonCard.module.css"
 
-function PersonCard(props) {
-    const {...data} = props.info
+function PersonCard({info, clickHandler}) {
 
     return (
         <div className={styles.card}
-             onClick={(e) => props.clickHandler(e)}
+             onClick={clickHandler}
+             clickedstatus={info.clicked.toString()}
         >
             <div className={styles.imageContainer}>
-                <img src={data.source}
-                     alt={data.name}
-                     clickedstatus={data.clicked.toString()}/>
+                <img src={info.source}
+                     alt={info.name}
+                    />
             </div>
         </div>
     )
