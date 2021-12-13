@@ -26,13 +26,13 @@ function Main() {
     const setPeople = () => {
         return [
             makeAuthor("J.K. Rowling", jkr),
-            makeAuthor("Malcom Gladwell", mg),
-            makeAuthor("Mary Shelly", ms),
+            makeAuthor("Malcolm Gladwell", mg),
+            makeAuthor("Mary Shelley", ms),
             makeAuthor("Robert Greene", rg),
             makeAuthor("Ryan Holiday", rh),
             makeAuthor("Ralph Waldo Emerson", rwe),
             makeAuthor("Dr. Seuss", tsg),
-            makeAuthor("Virginnia Wolfe", vw)
+            makeAuthor("Virginia Woolf", vw)
         ]
     }
 
