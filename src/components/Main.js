@@ -42,34 +42,39 @@ function Main() {
         gameOver: false
     })
 
-    const checkScore = () => {
-        const curr = game.currScore
-        const high = game.highScore
-        if (curr > high) {
-            setGame({...game, highScore: curr})
+    useEffect(() =>{
+        const checkScore = () => {
+            if (game.currScore > game.highScore) {
+                setGame({...game, highScore: game.currScore})
+            }
         }
-    }
 
-    const resetGame = () => {
-        if (game.gameOver) {
-            setGame({...game, currScore: 0})
-            setGame({...game, people: setPeople()})
+        const resetGame = () => {
+            if (game.gameOver === true) {
+                setGame({
+                    ...game,
+                    currScore: 0,
+                    people: setPeople()
+                })
+            }
         }
-    }
+        checkScore()
+        resetGame()
+    }, [game.currScore, game.gameOver])
+
 
     const handleClick = (e) => {
         const target = e.currentTarget
         const status = target.getAttribute("clickedstatus")
         if (status === "true") {
-            setGame({...game, gameOver: true})
-            resetGame()
-            console.log("GAME OVER")
-            console.log("-----------------------------------")
-
+            setGame(() => (
+                {...game, gameOver: true}
+            ))
         } else if (status === "false") {
             target.setAttribute("clickedstatus", "true")
-            setGame({...game, currScore: game.currScore + 1})
-            checkScore()
+            setGame(prevState => (
+                {...game, currScore: prevState.currScore + 1}
+            ))
         }
     }
 
@@ -88,7 +93,6 @@ function Main() {
                           clickHandler={handleClick}
                           handle
             />
-
 
         </div>
     )
