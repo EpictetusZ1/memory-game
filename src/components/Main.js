@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import DisplayCards from "./DisplayCards";
-import styles from "../styles/StyleMain.module.css"
+import styles from "../styles/Main.module.css"
 import {
     jkr,
     mg,
@@ -31,7 +31,7 @@ function Main() {
             makeAuthor("Robert Greene", rg),
             makeAuthor("Ryan Holiday", rh),
             makeAuthor("Ralph Waldo Emerson", rwe),
-            makeAuthor("Theodor Seuss Geisel", tsg),
+            makeAuthor("Dr. Seuss", tsg),
             makeAuthor("Virginnia Wolfe", vw)
         ]
     }
@@ -40,16 +40,31 @@ function Main() {
         people: setPeople(),
         currScore: 0,
         highScore: 0,
-        gameOver: false
+        gameOver: false,
+        winCondition: false
     })
 
-    useEffect(() =>{
+    const [rules, setRules] = useState(true)
+
+    useEffect(() => {
+        if (game.currScore >= 1) {
+            setRules(false)
+        }
+
+    },[game.currScore])
+
+    useEffect(() => {
         const checkScore = () => {
-            if (game.currScore > game.highScore) {
+            if (game.currScore === 8) {
+                return setGame({...game, winCondition: true})
+            }
+            if (game.currScore >= game.highScore) {
                 setGame({...game, highScore: game.currScore})
             }
         }
+
         checkScore()
+
     }, [game.currScore, game.gameOver])
 
 
@@ -68,7 +83,8 @@ function Main() {
 
     const resetGame = () => {
         if (game.gameOver === true) {
-            setGame(() => ( {...game, gameOver: false, currScore: 0, people: setPeople()}) )
+            setRules(true)
+            setGame(() => ( {...game, gameOver: false, winCond: false, currScore: 0, people: setPeople()}) )
         }
     }
 
@@ -77,15 +93,21 @@ function Main() {
             <div className={styles.header}>
                 <h2 className={styles.title}> Who's That Author ? </h2>
                 <hr/>
-                <div className={styles.score}>
-                    Current Score: {game.currScore}
-                    &nbsp; &nbsp; &nbsp;
-                    High Score: {game.highScore}
+                { rules && <p className={styles.howTo}>Get points by clicking on an image, just don't click on any more than once !</p> }
+                <div className={styles.scoreContainer}>
+                    <div className={styles.score}>
+                        Current Score: {game.currScore}
+                    </div>
+                    <div className={styles.score}>
+                        High Score: {game.highScore}
+                    </div>
                 </div>
             </div>
-            {!game.gameOver
+            { game.winCondition && <div className={styles.congrats}>Congratulations you won!</div> }
+            { !game.gameOver
                 ? <DisplayCards gameState={game}
-                                clickHandler={handleClick} />
+                                clickHandler={handleClick}
+                />
 
                 : <ShowGameOver gameState={game.gameOver}
                                 handleReset={resetGame} />

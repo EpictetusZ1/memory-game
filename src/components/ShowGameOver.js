@@ -1,14 +1,7 @@
-import React, {useEffect} from "react";
+import React from "react";
 import style from "../styles/ShowGameOver.module.css"
 
-function ShowGameOver({handleReset, gameState}) {
-
-    useEffect(() => {
-        const showGameOver = () => {
-
-        }
-        showGameOver()
-    }, [gameState])
+function ShowGameOver({handleReset}) {
 
     return (
         <div className={style.gameOverCard}>

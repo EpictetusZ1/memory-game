@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import styles from "../styles/StyleMain.module.css"
+import React from 'react';
+import styles from "../styles/Main.module.css"
 import PersonCard from "./PersonCard";
 
-function DisplayCards( {initCardArray, clickHandler} ) {
+function DisplayCards( {gameState, clickHandler} ) {
+    const initCardArray = gameState.people
 
     const shuffleCards = (cardArr) => {
         for (let i = cardArr.length - 1; i > 0; i--) {
@@ -18,6 +19,7 @@ function DisplayCards( {initCardArray, clickHandler} ) {
                 <PersonCard key={card.name}
                             info={card}
                             clickHandler={clickHandler}
+                            winCond={gameState.winCondition}
                 />
             ))}
         </div>
