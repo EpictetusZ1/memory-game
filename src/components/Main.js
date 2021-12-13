@@ -11,6 +11,7 @@ import {
     tsg,
     vw
 } from "../people/index"
+import ShowGameOver from "./ShowGameOver";
 
 function Main() {
 
@@ -19,7 +20,7 @@ function Main() {
             name: name,
             source: source,
             funFact: funFact,
-            clicked: false
+            clicked: 0,
         }
     }
     const setPeople = () => {
@@ -48,33 +49,26 @@ function Main() {
                 setGame({...game, highScore: game.currScore})
             }
         }
-
-        const resetGame = () => {
-            if (game.gameOver === true) {
-                setGame({
-                    ...game,
-                    currScore: 0,
-                    people: setPeople()
-                })
-            }
-        }
         checkScore()
-        resetGame()
     }, [game.currScore, game.gameOver])
 
 
     const handleClick = (e) => {
         const target = e.currentTarget
         const status = target.getAttribute("clickedstatus")
-        if (status === "true") {
-            setGame(() => (
-                {...game, gameOver: true}
-            ))
-        } else if (status === "false") {
-            target.setAttribute("clickedstatus", "true")
+        if (status === "1") {
+            setGame(() => ( {...game, gameOver: true} ))
+        } else if (status === "0") {
+            target.setAttribute("clickedstatus", "1")
             setGame(prevState => (
                 {...game, currScore: prevState.currScore + 1}
             ))
+        }
+    }
+
+    const resetGame = () => {
+        if (game.gameOver === true) {
+            setGame(() => ( {...game, gameOver: false, currScore: 0, people: setPeople()}) )
         }
     }
 
@@ -89,11 +83,13 @@ function Main() {
                     High Score: {game.highScore}
                 </div>
             </div>
-            <DisplayCards initCardArray={game.people}
-                          clickHandler={handleClick}
-                          handle
-            />
+            {!game.gameOver
+                ? <DisplayCards gameState={game}
+                                clickHandler={handleClick} />
 
+                : <ShowGameOver gameState={game.gameOver}
+                                handleReset={resetGame} />
+            }
         </div>
     )
 }
